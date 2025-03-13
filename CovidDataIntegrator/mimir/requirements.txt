@@ -1,0 +1,52 @@
+# requirements.txt
+# Add your Python version
+#python
+
+# Autogluon packages
+autogluon
+
+# Core dependencies
+cymem
+gpt4all[cuda]
+beautifulsoup4
+boto3
+graphviz
+huggingface_hub
+idna
+imageio
+jinja2
+joblib
+jsonschema
+kiwisolver
+langcodes
+lightgbm
+markdown
+matplotlib
+murmurhash==1.0.9
+networkx
+numpy
+openai
+openpyxl
+pandas
+plotly
+protobuf
+psutil
+pytorch-lightning
+scikit-learn
+scipy
+sentencepiece
+spacy==3.6.1
+tensorboard
+torchmetrics
+torchvision
+transformers
+tqdm
+typer
+urllib3
+wandb
+xlrd
+accelerate
+#gpt4all
+ollama
+pydantic
+pydantic-core
