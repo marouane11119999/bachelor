@@ -1,0 +1,63 @@
+services:
+  pythonapp:
+    build: ./python/dash
+    command: sh -c "python3 ./app.py"
+    ports:
+      - "80:8080"
+    depends_on:
+      - redis
+      - mimir
+      - postgres
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    networks:
+      - app_network
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+  celery:
+    build: ./python/dash
+    command: celery -A app.celery_app worker --loglevel=info
+    depends_on:
+      - pythonapp
+      - redis
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    networks:
+      - app_network
+
+  postgres:
+    build: ./postgres/
+    restart: always
+    environment:
+      POSTGRES_DB: 'db'
+      POSTGRES_PASSWORD: 'root'
+    ports:
+      - '5432:5432'
+    networks:
+      - app_network
+  mimir:
+    build: ./mimir
+    command: >
+      bash -c "source /opt/conda/etc/profile.d/conda.sh &&
+             conda activate mimir &&
+             python correction.py"
+    depends_on:
+      - postgres
+    ports:
+      - "5001:5001"
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge

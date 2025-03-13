@@ -1,0 +1,5 @@
+CovidDataIntegrator/mimir/mimir_env/
+CovidDataIntegrator/mimir/src/LLMs
+.idea
+
+.env
